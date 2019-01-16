@@ -26,11 +26,15 @@ struct Birthday {
 };
 //init the list of birthdays
 struct Birthday BirthdayList;
-
+/*
+ * SimpleInit()
+ *
+ *Initializes the module and creates a list of 5 birthdays
+ */
 int SimpleInit(void){
-	struct Birthday *NewBirthday, *aBirthday;
-	unsigned int i;
-	printk(KERN_INFO "Loading Module\n");
+	struct Birthday *NewBirthday, *aBirthday; //since im not using std=cc99 or std=gnu90 variables need to go first;
+	unsigned int i; //unisgned so the int can go below 0
+	printk(KERN_INFO "Loading Module\n"); 
 	INIT_LIST_HEAD(&BirthdayList.list);
 	for ( i = 0 ; i < 5; i++){
 		NewBirthday = kmalloc(sizeof(*NewBirthday), GFP_KERNEL);
