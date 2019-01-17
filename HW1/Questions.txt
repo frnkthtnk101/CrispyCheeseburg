@@ -1,0 +1,19 @@
+Franco Pettigrosso Questions for hw1 
+1) If we forgot kfree() what would happen? How could you prevent this from happening(in module and kernel)?
+show what happens by simulation. is this differen than user level - why or why not? backup anwer
+
+
+2) Why are the kernel data structures "simple"? Describe all the reasons you can think of.
+
+3) What about security of kernel modules? can they manipulate global structures or are they limited to their own
+variables? Suggest what you think the rull are and WHY. How do you get the names of the kernel's variables? do
+you really need names.
+
+4) What about perforamce? (module and kernel) how are they managed? Can they make the kernel perform badly?
+
+5) Do you think that a poorly written driver module could pause the kernel to crash? why or why not? How could
+a kernel stop this from happening? provide some ideas.
+
+6) what are the pro and cons of modular kernels and and monlithic kernels. give me three areas
+
+7) Why won't this work on tux? Please be specific as possible
