@@ -1,0 +1,64 @@
+Script started on Fri 18 Jan 2019 02:00:42 AM MST
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ make all
+make -C /lib/modules/3.16.0-4-686-pae/build M=/home/oscreader/ws/CrispyCheeseburg/HW1 modules
+make[1]: Entering directory '/usr/src/linux-headers-3.16.0-4-686-pae'
+Makefile:10: *** mixed implicit and normal rules: deprecated syntax
+make[1]: Entering directory `/usr/src/linux-headers-3.16.0-4-686-pae'
+  CC [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simplecrash.o
+  CC [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simple1.o
+  CC [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simple2.o
+  CC [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simple3.o
+  CC [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simple4.o
+  Building modules, stage 2.
+  MODPOST 5 modules
+  CC      /home/oscreader/ws/CrispyCheeseburg/HW1/simple1.mod.o
+  LD [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simple1.ko
+  CC      /home/oscreader/ws/CrispyCheeseburg/HW1/simple2.mod.o
+  LD [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simple2.ko
+  CC      /home/oscreader/ws/CrispyCheeseburg/HW1/simple3.mod.o
+  LD [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simple3.ko
+  CC      /home/oscreader/ws/CrispyCheeseburg/HW1/simple4.mod.o
+  LD [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simple4.ko
+  CC      /home/oscreader/ws/CrispyCheeseburg/HW1/simplecrash.mod.o
+  LD [M]  /home/oscreader/ws/CrispyCheeseburg/HW1/simplecrash.ko
+make[1]: Leaving directory '/usr/src/linux-headers-3.16.0-4-686-pae'
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ sudo insmod simple1.ko
+[sudo] password for oscreader: 
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ dmesg
+[32m[27094.194633] [0mHELLO WORLD!
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ sudo rmmod simple1 
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ dms[Kesg 
+[32m[27094.194633] [0mHELLO WORLD!
+[32m[27109.907234] [0mGoodbye World!
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ sudo [K[K[K[K[K###asi[Ksginment 2
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ sudo insmod simple2.ko
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ dmesg
+[32m[27094.194633] [0mHELLO WORLD!
+[32m[27109.907234] [0mGoodbye World!
+[32m[27135.596288] [0mLoading Module
+[32m[27135.596291] [0m[33mADD Birthday[0m: {day=0,month=3,year=1993}
+[32m[27135.596292] [0m[33mADD Birthday[0m: {day=1,month=3,year=1993}
+[32m[27135.596293] [0m[33mADD Birthday[0m: {day=2,month=3,year=1993}
+[32m[27135.596294] [0m[33mADD Birthday[0m: {day=3,month=3,year=1993}
+[32m[27135.596294] [0m[33mADD Birthday[0m: {day=4,month=3,year=1993}
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ sudo rmmod simple2
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ dmesg
+[32m[27094.194633] [0mHELLO WORLD!
+[32m[27109.907234] [0mGoodbye World!
+[32m[27135.596288] [0mLoading Module
+[32m[27135.596291] [0m[33mADD Birthday[0m: {day=0,month=3,year=1993}
+[32m[27135.596292] [0m[33mADD Birthday[0m: {day=1,month=3,year=1993}
+[32m[27135.596293] [0m[33mADD Birthday[0m: {day=2,month=3,year=1993}
+[32m[27135.596294] [0m[33mADD Birthday[0m: {day=3,month=3,year=1993}
+[32m[27135.596294] [0m[33mADD Birthday[0m: {day=4,month=3,year=1993}
+[32m[27150.796143] [0mRemoving Module and clean list up
+[32m[27150.796146] [0m[33mREMOVE Birthday[0m: {day=0,month=3,year=1993}
+[32m[27150.796147] [0m[33mREMOVE Birthday[0m: {day=1,month=3,year=1993}
+[32m[27150.796148] [0m[33mREMOVE Birthday[0m: {day=2,month=3,year=1993}
+[32m[27150.796148] [0m[33mREMOVE Birthday[0m: {day=3,month=3,year=1993}
+[32m[27150.796149] [0m[33mREMOVE Birthday[0m: {day=4,month=3,year=1993}
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ ##done
+]0;oscreader@OSC: ~/ws/CrispyCheeseburg/HW1oscreader@OSC:~/ws/CrispyCheeseburg/HW1$ exit
+exit
+
+Script done on Fri 18 Jan 2019 02:02:12 AM MST
