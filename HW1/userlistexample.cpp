@@ -1,12 +1,20 @@
+/*
+ *userlistexample.cpp
+ *a way to prove the end of question 1
+ *Franco Pettigrosso
+ */
 #include<bits/stdc++.h>
 
 using namespace std;
-
+// a struct for a list of nodes
 struct Node{
 	int data;
 	struct Node *next;
 };
-
+/*
+ * addToEmpty
+ * adds an element to an empty linked list 
+ */
 struct Node *addToEmpty(struct Node *last, int data){
 	if(last != NULL)
 		return last;
@@ -16,7 +24,10 @@ struct Node *addToEmpty(struct Node *last, int data){
 	last -> next = last;
 	return last;
 }
-
+/*
+ * addToEmpty
+ * adds an element to a linked list at the end
+ */
 struct Node *addEnd(struct Node *last, int data){
 	struct Node *temp = (struct Node*)malloc(sizeof(struct Node));
 	temp -> data = data;
@@ -26,6 +37,10 @@ struct Node *addEnd(struct Node *last, int data){
 	return last;
 }
 
+/*
+ *traverse
+ *goes through a linked list
+ */
 void traverse(struct Node *last){
 	struct Node *p;
 	if (last == NULL){
@@ -39,7 +54,10 @@ void traverse(struct Node *last){
 	}while(p != last->next);
 	return;
 }
-
+/*
+ *main
+ * the main function for this program. makes a list, displays infor, and deletels it
+ */
 int main()
 {
 	struct Node *last = NULL;

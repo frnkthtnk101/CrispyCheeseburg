@@ -29,7 +29,7 @@ struct Birthday BirthdayList;
 /*
  *SimpleInit()
  *when the kernel module is intialized. The method will created a linked
- *list with 5 birthdays in it. Then list it.
+ *list with 5 birthdays in it. Then list it. after deletes it without freeing it.
  */
 int SimpleInit(void){
 	//since the build is not using the c99 or gnu93 standards. all the variables need to 
