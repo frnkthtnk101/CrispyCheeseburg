@@ -1,7 +1,23 @@
 Franco Pettigrosso Questions for hw1 
 1) If we forgot kfree() what would happen? How could you prevent this from happening(in module and kernel)?
-show what happens by simulation. is this differen than user level - why or why not? backup anwer
+show what happens by simulation. is this different than user level - why or why not? backup anwer
 
+  What will happen if we do not use kfree in our code is that once we remove that stuff, such as the elements in the linked list, the memory will always be allocated until the module_exit is called. This is bad because it will cause memory leaks. One way  to prevent
+that from happening is by using the kfree method when you deconstructing something used by the kmalloc() method, such as the elements in 
+the linked list. I'm guessing the kernel does it's own clean up as well over a period of time. did a simulation. I create two more modules
+. simple3.c and simple4.c what they both do is on init, they create a list then delete it. simple3 does not have kfree() and simple4 does.
+To see how much memory was allocated in the kernelstack is just used the cmd `cat /proc/meminfo | grep KernelStack`. What I did was that 
+I got a record of how much memory was in the kerenel before I installed the modules. Then one at a time I ran simples2-4 and ran that cmd
+I mention to get how much memory was beign allocated.
+memory allocated = 2560 kb
+      simple2.ko = 2568 kb
+      simple3.ko = 2568 kb
+      simple4.ko = 2560 kb
+as we can see even though the simple3.ko removed the elements from the linked list, the memory was still allocated as if they where never
+removed like simple2.ko which does not remove the element until the module_exit is excited. simple4.ko used the kfree() while removing the 
+elements and it freed up the space. It is the same on the user level as well. In theory, kmalloc and kfree are the kernel forms of the 
+malloc and free of the user side. So in theory, yes you need to do free whenever you need deconstruct something or you just wasting 
+memory. (shoul write code that does that)
 
 2) Why are the kernel data structures "simple"? Describe all the reasons you can think of.
 
