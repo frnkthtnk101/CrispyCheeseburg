@@ -1,0 +1,10 @@
+Script started on Fri 18 Jan 2019 01:22:16 AM MST
+make -C /lib/modules/3.16.0-4-686-pae/build M=/home/oscreader/ws/CrispyCheeseburg/HW1 clean 
+make[1]: Entering directory '/usr/src/linux-headers-3.16.0-4-686-pae'
+Makefile:10: *** mixed implicit and normal rules: deprecated syntax
+make[1]: Entering directory `/usr/src/linux-headers-3.16.0-4-686-pae'
+  CLEAN   /home/oscreader/ws/CrispyCheeseburg/HW1/.tmp_versions
+  CLEAN   /home/oscreader/ws/CrispyCheeseburg/HW1/Module.symvers
+make[1]: Leaving directory '/usr/src/linux-headers-3.16.0-4-686-pae'
+
+Script done on Fri 18 Jan 2019 01:22:16 AM MST
