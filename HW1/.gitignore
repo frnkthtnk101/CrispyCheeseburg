@@ -4,4 +4,4 @@
 .tmp_versions/
 Module.symvers
 modules.order
-simple.mod.c
+*.mod.c
