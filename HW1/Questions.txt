@@ -42,3 +42,6 @@ be stopped?
 6) what are the pro and cons of modular kernels and and monlithic kernels. give me three areas
 
 7) Why won't this work on tux? Please be specific as possible
+  The normal user is not part of the sudoers file. Another easy thing to say is that tux is ubuntu and the vm instance is 
+debian so that could be the issue, but they do run c code and come from linux. also the tux has a ubuntu section in its 
+`/usr/src/linux-headers-4.15.0-43/' directory.
