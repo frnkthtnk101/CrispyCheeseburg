@@ -12,10 +12,10 @@ memory allocated = 2560 kb
       simple2.ko = 2568 kb
       simple3.ko = 2568 kb
       simple4.ko = 2560 kb
-as we can see even though the simple3.ko removed the elements from the linked list, the memory was still allocated as if they where never
-removed like simple2.ko which does not remove the element until the module_exit is excited. simple4.ko used the kfree() while removing the 
-elements and it freed up the space. It is the same on the user level as well. In theory, kmalloc and kfree are the kernel forms of the 
-malloc and free of the user side. So in theory, yes you need to do free whenever you need deconstruct something or you just wasting 
+as we can see even though the simple3.ko removed the elements from the linked list, the memory was still allocated as if they wherenever
+removed like simple2.ko which does not remove the element until the module_exit is excited. simple4.ko used the kfree() while removing 
+the  elements and it freed up the space. It is the same on the user level as well. In theory, kmalloc and kfree are the kernel forms of 
+the malloc and free of the user side. So in theory, yes you need to do free whenever you need deconstruct something or you just wasting 
 memory. (should write code that does that)
 
 2) Why are the kernel data structures "simple"? Describe all the reasons you can think of.
@@ -26,8 +26,22 @@ of how a coumputer keeps tracks of things. A stack for example can be used to ke
 3) What about security of kernel modules? can they manipulate global structures or are they limited to their own
 variables? Suggest what you think the rull are and WHY. How do you get the names of the kernel's variables? do
 you really need names.
+To define security of kernel modules, We need to look at what the kernel does. A kernal is the interface that intreracts with the 
+Hardware and the OS. The kernel can do anything thus we can deign a kernel module to do anything we want. SO yes they are not very 
+secure in the sense once you can get ahold of sudo an inject a rootkit, but they are secure enough where a typical user, with the 
+correct permissions cannot crash a system in means of running malicous code on the kernel side(atleast intentionally they cannot). 
+Kernel modules can share data and do manipulate global structures. I really do not know what you mean by, 'How do you get the names of 
+the kernel's variables', but it you are referring to the fact some macros and etc have a k in front of the it, such as kmalloc() or 
+kfree() then its important to have the names with k infront to distinguish what can be done on the kernel side and what can not. Plus, 
+you need something identify kernel variables so the developer can work with it.
 
 4) What about performance? (module and kernel) how are they managed? Can they make the kernel perform badly?
+
+The kernel is a simple monolithic structure that can needs to be booted up once in memory and can have modules that attach to it to make 
+it do more things, such as making it print stuff of use a mouse and keyboard. For what I understand, a kerenel module can be added, 
+stopped, blacklisted, and removed. They can make the kernel perform badly, even worse, or crash. Modules can make calls to other modules 
+and depend on ther modules or resources. If somethig get stuck or a rescourse is held up by something else, It could bog down the 
+system.
 
 5) Do you think that a poorly written driver module could pause the kernel or crash? why or why not? How could
 a kernel stop this from happening? provide some ideas.
