@@ -18,7 +18,8 @@ As we can see even though the simple3.ko removed the elements from the linked li
 removed like simple2.ko which does not remove the element until the module_exit is excited. simple4.ko used the kfree() while removing 
 the elements and it freed up the space. It is the same on the user level as well. In theory, kmalloc and kfree are the kernel forms of 
 the malloc and free of the user side. So in theory, yes you need to do free whenever you need deconstruct something or you just wasting 
-memory. I tried proving my answer with the cpp, but could not make it work. 
+memory. I tried proving my answer with the cpp, but could not make it work. I know free() is the same as delete in cpp. if I tried doing 
+a delete I would get a double free.
 
 2) Why are the kernel data structures "simple"? Describe all the reasons you can think of.
   I think they need to be simple because they are the building blocks for bigger structures so to say. The data structures are simple 
