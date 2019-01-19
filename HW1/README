@@ -1,0 +1,9 @@
+what are the files in my zip
+assignment1and2 - the script that shows I did the assignments.
+Questions.txt - the questions and my answers to my question.
+simple1.c - assignment part 1 source code.
+simple2.c - assignment part 2 source code.
+simple3.c -creates a list then deletes it without free. used for proof in question 1.
+simple4.c - creates a list then deletes it with free. used for proof in question 1.
+userlistexample.c - creates a list and then deletes it. used for proof in question 1.
+simplecrash.c -proof that bad code can crash a kernel.c (dont run it or it will crash your system)
