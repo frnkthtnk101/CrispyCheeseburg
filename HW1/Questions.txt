@@ -1,43 +1,46 @@
 Franco Pettigrosso Questions for hw1 
 1) If we forgot kfree() what would happen? How could you prevent this from happening(in module and kernel)?
-show what happens by simulation. is this different than user level - why or why not? backup anwer
-  What will happen if we do not use kfree in our code is that once we remove that stuff, such as the elements in the linked list, the memory will always be allocated until the module_exit is called. This is bad because it will cause memory leaks. One way  to prevent
+show what happens by simulation. is this different than user level - why or why not? backup answer
+  What will happen if we do not use kfree in our code is that once we remove that stuff, such as the elements in the linked list, the
+memory will always be allocated until the module_exit is called. This is bad because it will cause memory leaks. One way to prevent
 that from happening is by using the kfree method when you deconstructing something used by the kmalloc() method, such as the elements in 
-the linked list. I'm guessing the kernel does it's own clean up as well over a period of time. did a simulation. I create two more modules
-. simple3.c and simple4.c what they both do is on init, they create a list then delete it. simple3 does not have kfree() and simple4 does.
-To see how much memory was allocated in the kernelstack is just used the cmd `cat /proc/meminfo | grep KernelStack`. What I did was that 
-I got a record of how much memory was in the kerenel before I installed the modules. Then one at a time I ran simples2-4 and ran that cmd
-I mention to get how much memory was beign allocated.
+the linked list. I'm guessing the kernel does it's own clean up as well over a period of time. did a simulation. I created two more
+modules. simple3.c and simple4.c what they both do is on init, they create a list then delete it. simple3 does not have kfree() and
+simple4 does.
+To see how much memory was allocated in the kernelstack I just used the cmd `cat /proc/meminfo | grep KernelStack`. What I did was that 
+I got a record of how much memory was in the kerenel before I installed the modules. Then one at a time, I ran simples2-4 and ran that 
+cmd I mention to get how much memory was beign allocated.
 memory allocated = 2560 kb
-      simple2.ko = 2568 kb
-      simple3.ko = 2568 kb
-      simple4.ko = 2560 kb
-as we can see even though the simple3.ko removed the elements from the linked list, the memory was still allocated as if they wherenever
+      simple2.ko running = 2568 kb
+      simple3.ko running = 2568 kb
+      simple4.ko running = 2560 kb
+As we can see even though the simple3.ko removed the elements from the linked list, the memory was still allocated as if they where never
 removed like simple2.ko which does not remove the element until the module_exit is excited. simple4.ko used the kfree() while removing 
-the  elements and it freed up the space. It is the same on the user level as well. In theory, kmalloc and kfree are the kernel forms of 
+the elements and it freed up the space. It is the same on the user level as well. In theory, kmalloc and kfree are the kernel forms of 
 the malloc and free of the user side. So in theory, yes you need to do free whenever you need deconstruct something or you just wasting 
 memory. (should write code that does that)
 
 2) Why are the kernel data structures "simple"? Describe all the reasons you can think of.
   I think they need to be simple because they are the building blocks for bigger structures so to say. The data structures are simple 
 because the structures need to perform a simple task, If more complexity is needed, can always add it later. They are really the basis
-of how a coumputer keeps tracks of things. A stack for example can be used to keep track of function calls. Queues are useful for things that us SPOOLS, such as a printer, Trees are useful to show hierachy and hash are useful to get to something very quickly.
+of how a coumputer keeps tracks of things. A stack for example can be used to keep track of function calls. Queues are useful for things 
+that use SPOOLS, such as a printer, Trees are useful to show hierachy and hash are useful to get to something very quickly.
 
 3) What about security of kernel modules? can they manipulate global structures or are they limited to their own
 variables? Suggest what you think the rull are and WHY. How do you get the names of the kernel's variables? do
 you really need names.
-To define security of kernel modules, We need to look at what the kernel does. A kernal is the interface that intreracts with the 
-Hardware and the OS. The kernel can do anything thus we can deign a kernel module to do anything we want. SO yes they are not very 
-secure in the sense once you can get ahold of sudo an inject a rootkit, but they are secure enough where a typical user, with the 
-correct permissions cannot crash a system in means of running malicous code on the kernel side(atleast intentionally they cannot). 
-Kernel modules can share data and do manipulate global structures. I really do not know what you mean by, 'How do you get the names of 
-the kernel's variables', but it you are referring to the fact some macros and etc have a k in front of the it, such as kmalloc() or 
-kfree() then its important to have the names with k infront to distinguish what can be done on the kernel side and what can not. Plus, 
+  To define security of kernel modules, We need to look at what the kernel does. A kernel is the interface that intreracts with the 
+Hardware and the OS. The kernel can do anything thus we can design a kernel module to do anything we want. SO yes they are not very 
+secure in the sense once you can get ahold of sudo, we can an inject a rootkit module, but they are secure enough where a typical user,
+with the correct permissions cannot crash a system in means of running malicous code on the kernel side(atleast intentionally they 
+cannot). Kernel modules can share data and do manipulate global structures. I really do not know what you mean by, 'How do you get the 
+names of the kernel's variables', but it you are referring to the fact some macros and etc have a k in front of the it, such as kmalloc() 
+or kfree() then its important to have the names with k infront to distinguish what can be done on the kernel side and what can not. Plus, 
 you need something identify kernel variables so the developer can work with it.
 
 4) What about performance? (module and kernel) how are they managed? Can they make the kernel perform badly?
 
-The kernel is a simple monolithic structure that can needs to be booted up once in memory and can have modules that attach to it to make 
+The kernel is a simple monlithic structure that can needs to be booted up once in memory and can have modules that attach to it to make 
 it do more things, such as making it print stuff of use a mouse and keyboard. For what I understand, a kerenel module can be added, 
 stopped, blacklisted, and removed. They can make the kernel perform badly, even worse, or crash. Modules can make calls to other modules 
 and depend on ther modules or resources. If somethig get stuck or a rescourse is held up by something else, It could bog down the 
@@ -48,12 +51,23 @@ a kernel stop this from happening? provide some ideas.
   Yes, you can make crash via bad coding. Gave it a try with simplecrash.c. Why do this happen? it can be a plethera of things. For 
 example, like in simplecrash.c, the arrow was in the wrong direction causing an inifinite loop of creating linked list elements until
 its to late. The point I am trying to make is that poorly written driver modules or program has negative consquences and can result in
-crashes or slow downs. One idea can be just a monitoring system on the kerenel modules to see if a kernel module has gone rogue (infinit
+crashes or slow downs. One idea can be just a monitoring system on the kerenel modules to see if a kernel module has gone rogue (infinite
 loops, error, malicous code,code grimlins) and just stop it. That leads another set of problems in itself. What should the policies
 should be in order to constitute that something bad has happened and the kernel can stop the module? What Modules are never allowed to 
 be stopped?
 
 6) what are the pro and cons of modular kernels and and monlithic kernels. give me three areas
+Performance - From what I get, Monlithic systems do one job really good. There is minmal overhead that bogs down the system. a Modular
+kernel has more overhead due to the fact it needs to send messages left and right to get anything done.
+Security - As the book is trying to make it, modular kernels are more secure than monlithic kernels. If something errored out on a 
+monlithic system, you are more than likely going to have a whole system crash. With a modular system, the system is virtually unaffected 
+by the error and will not crash the entire system.
+Functionality- In a sense, a full blown monlithic system has a set of functionality and thats it. You cannot add or loose functionality. 
+Unlike the full blown moduled kerenel, You can add as much functionality you seem need fit.There both pros and cons depending what you 
+want to do with a system. For example, a car radio console with a linux os on it, You just want it to do a set of task such as map 
+drawing, radio, and whatever else they do. You wouldn't want to neccessary want to add more functionality to it because one you the 
+interface is possibly knobs, a screen, and possibly voice command and two you dont want it do to many things because it can distract a 
+driver. That functionality of being able to add stuff is favorable on a home computer.
 
 7) Why won't this work on tux? Please be specific as possible
   The normal user is not part of the sudoers file. Another easy thing to say is that tux is ubuntu and the vm instance is 
