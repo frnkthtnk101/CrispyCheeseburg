@@ -25,7 +25,7 @@ def show_last_comands(commands):
     #first command the user sees
     for i  in range(commands_length,0, -1):
         if i >= 0:
-            print(f"{i} {commands[i]}")
+            print("{}: {}".format(i,commands[i]))
 
 '''
 start_shell
