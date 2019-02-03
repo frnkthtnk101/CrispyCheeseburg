@@ -82,10 +82,10 @@ def set_paths(command):
 '''
 def set_alias(command):
     v_print("set_alias started")
-    groups = REGEX_NEW_ALIAS.match(command).groups
-    if groups:
+    if REGEX_NEW_ALIAS.match(command):
+        groups = REGEX_NEW_ALIAS.match(command).groups(0)
         v_print("match")
-        ALIASES[groups(2)] = groups(3)
+        ALIASES[groups.__getitem__(1)] = groups.__getitem__(2)
     else:
         v_print("what are my ALIASES? to make one it \
             is set alias [name] \"command\"")
@@ -99,11 +99,11 @@ def set_alias(command):
 '''
 def remove_alias(command):
     v_print("remove_alias started")
-    groups = REGEX_REMOVE_ALIAS.match(command).groups
-    if groups and groups(2) in ALIASES:
+    groups = REGEX_REMOVE_ALIAS.match(command).groups(0)
+    if groups and groups.__getitem__(1) in ALIASES:
         try:
             v_print("match")
-            ALIASES.pop(groups(2))
+            ALIASES.pop(groups.__getitem__(1))
         except Exception as e:
             print("ERROR! {}".format(e))
     else:
