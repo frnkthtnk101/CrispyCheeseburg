@@ -201,8 +201,11 @@ def start_shell(precommands):
             given_command = precommands[precommands_index]
             precommands_index += 1
         else:
-            given_command = input("osh>")
-            sys.stdout.flush()
+            try:
+                given_command = input("osh>")
+                sys.stdout.flush()
+            except EOFError:
+                exit(0)
         v_print("figguring out what to do with command")
         if given_command is None or given_command is '':
             continue
