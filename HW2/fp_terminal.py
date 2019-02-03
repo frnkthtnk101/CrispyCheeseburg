@@ -60,11 +60,11 @@ def with_pre_commands():
 '''
 def set_paths(command):
     v_print("set path started")
-    groups = REGEX_GRAB_PATHS.match(command)
+    groups = REGEX_GRAB_PATHS.match(command).groups
     temp = []
     if groups:
         v_print("match!")
-        groups_list = groups[1].split(' ')
+        groups_list = groups(1)#groups[1].split(' ')
         for element in groups_list:
             if element == '.':
                 temp.append(os.curdir+"/")
@@ -82,10 +82,10 @@ def set_paths(command):
 '''
 def set_alias(command):
     v_print("set_alias started")
-    groups = REGEX_NEW_ALIAS.match(command)
+    groups = REGEX_NEW_ALIAS.match(command).groups
     if groups:
         v_print("match")
-        ALIASES[groups[2]] = groups[3]
+        ALIASES[groups(2)] = groups(3)
     else:
         v_print("what are my ALIASES? to make one it \
             is set alias [name] \"command\"")
@@ -99,11 +99,11 @@ def set_alias(command):
 '''
 def remove_alias(command):
     v_print("remove_alias started")
-    groups = REGEX_REMOVE_ALIAS.match(command)
-    if groups and groups[2] in ALIASES:
+    groups = REGEX_REMOVE_ALIAS.match(command).groups
+    if groups and groups(2) in ALIASES:
         try:
             v_print("match")
-            ALIASES.pop(groups[2])
+            ALIASES.pop(groups(2))
         except Exception as e:
             print("ERROR! {}".format(e))
     else:
