@@ -64,7 +64,7 @@ def set_paths(command):
     temp = []
     if groups:
         v_print("match!")
-        groups_list = groups(1)#groups[1].split(' ')
+        groups_list = groups(1).__getitem__(0).split(' ')
         for element in groups_list:
             if element == '.':
                 temp.append(os.curdir+"/")
