@@ -1,9 +1,9 @@
-#include <pch.h>
+
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <iomanip>
-
+#include <cstring>
 using namespace std;
 
 int const SIZE = 256;
@@ -238,7 +238,7 @@ int main(int argc, char* args[]) {
 		LRUSize FrameLRU = LRUSize();
 		Statistics Stats;
 		ifstream Addresses;
-		fstream BackStore("C:\\Users\\fpettigrosso\\ws\\CrispyCheeseburg\\HW3\\BACKING_STORE.bin", ios::out | ios::in | ios::binary);
+		fstream BackStore("/home/oscreader/Desktop/osc9e-src/ch9/BACKING_STORE.bin", ios::out | ios::in | ios::binary);
 		Addresses.open(args[1]);
 		if (Addresses.is_open()) {
 			string line;
