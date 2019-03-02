@@ -6,6 +6,7 @@
 #include <cstring>
 using namespace std;
 
+int const PHYICALSIZE = 128;
 int const SIZE = 256;
 int const TLBSIZE = 16;
 
@@ -59,16 +60,16 @@ public:
 };
 class LRUSize {
 public:
-	int titles[SIZE];
+	int titles[PHYICALSIZE];
 
 	LRUSize() {
-		for (int i = 255; i >= 0; i--)
-			titles[i] = 255 - i;
+		for (int i = 127; i >= 0; i--)
+			titles[i] = 127 - i;
 	}
 
 	int pop() {
-		int temp = titles[SIZE - 1];
-		for (int i = 255; i > 0;)
+		int temp = titles[PHYICALSIZE - 1];
+		for (int i = 127; i > 0;)
 		{
 			int t = titles[--i];
 			titles[i + 1] = t;
@@ -79,7 +80,7 @@ public:
 
 	void pick(int title) {
 		int j = 0;
-		for (; j < SIZE; j++)
+		for (; j < PHYICALSIZE; j++)
 			if (titles[j] == title)
 				break;
 		while (j >= 1)
@@ -189,7 +190,7 @@ int GetValue(char value) {
 
 int main(int argc, char* args[]) {
 	if (sizeof(args) > 0) {
-		Frame PhysicalMemory[SIZE];
+		Frame PhysicalMemory[PHYICALSIZE];
 		Page TLB[TLBSIZE];
 		Page PageTable[SIZE];
 		for (int i = 0; i < TLBSIZE; i += 2)
@@ -197,7 +198,7 @@ int main(int argc, char* args[]) {
 			TLB[i] = Page(-1);
 			TLB[i + 1] = Page(-1);
 		}
-		for (int i = 0; i < SIZE; i += 16) {
+		for (int i = 0; i < PHYICALSIZE; i += 16) {
 			PhysicalMemory[i] = Frame(i);
 			PhysicalMemory[i + 1] = Frame(i + 1);
 			PhysicalMemory[i + 2] = Frame(i + 2);
@@ -214,6 +215,8 @@ int main(int argc, char* args[]) {
 			PhysicalMemory[i + 13] = Frame(i + 13);
 			PhysicalMemory[i + 14] = Frame(i + 14);
 			PhysicalMemory[i + 15] = Frame(i + 15);
+		}
+		for (int i = 0; i < SIZE; i += 16) {
 			PageTable[i] = Page(i);
 			PageTable[i + 1] = Page(i + 1);
 			PageTable[i + 2] = Page(i + 2);
@@ -256,10 +259,9 @@ int main(int argc, char* args[]) {
 				lower = 255 & address;
 				if (TLBHit(TLB, upper, frame)) {
 					Stats.NumberOFTLBHits++;
-					cout << "Virtual Address: " << address
-						<< " command: " << command
-						<< " Physical Address: " << frame->physical[lower]
-						<< " value: " << GetValue(frame->Bits[lower]) << " tlb hit" << endl;
+					cout << "Virtual address: " << address
+						<< " Physical address: " << frame->physical[lower]
+						<< " Value: " << GetValue(frame->Bits[lower]) << endl;
 					if (command == 'W')
 						frame->DirtyBit = 1;
 					FrameLRU.pick(frame->Title);
@@ -268,10 +270,9 @@ int main(int argc, char* args[]) {
 				}
 				else if (PageHit(PageTable, upper, frame)) {
 
-					cout << "Virtual Address: " << address
-						<< " command: " << command
-						<< " Physical Address: " << frame->physical[lower]
-						<< " value: " << GetValue(frame->Bits[lower]) << endl;
+					cout << "Virtual address: " << address
+						<< " Physical address: " << frame->physical[lower]
+						<< " Value: " << GetValue(frame->Bits[lower]) << endl;
 					if (command == 'W')
 						frame->DirtyBit = 1;
 					FrameLRU.pick(frame->Title);
@@ -296,31 +297,32 @@ int main(int argc, char* args[]) {
 					int VictimTitle = FrameLRU.pop();
 					int i = 0, j = 0, k = 0;
 					//page out victim frame
-					for (; i < SIZE; i++)
+					for (; i < PHYICALSIZE; i++)
 						if (PhysicalMemory[i].Title == VictimTitle)
 							break;
-					if (PhysicalMemory[i].DirtyBit == true) {
-						BackStore.seekg(streampos(upper << 8), ios::beg);
-						while (k < 255) {
-							BackStore.write(&PhysicalMemory[i].Bits[k], 1);
-							k++;
-						}
-						k = 0;
-						PhysicalMemory[i].DirtyBit = false;
-					}
+
 					//change page of victim invalid
 					for (; j < SIZE; j++)
 						if (PageTable[j].frame == &PhysicalMemory[i]) {
+							if (PhysicalMemory[i].DirtyBit == true) {
+								BackStore.seekp(streampos(PageTable[j].Title << 8), ios::beg);
+								while (k <= 255) {
+									BackStore.write(&PhysicalMemory[i].Bits[k], sizeof(char)); //might be sizeof(char)
+									k++;
+								}
+								k = 0;
+								PhysicalMemory[i].DirtyBit = false;
+							}
 							PageTable[j].frame = nullptr;
 							PageTable[j].Valid = false;
 							break;
 						}
 
+
 					//page in desired page
-					int t = upper << 8;
-				BackStore.seekg(streampos(t), ios::beg);
+					BackStore.seekg(streampos(upper << 8), ios::beg);
 					//might have to read 255 once to bits
-					while (k < 255)
+					while (k <= 255)
 					{
 						BackStore.read(&PhysicalMemory[i].Bits[k], 1);
 						k++;
