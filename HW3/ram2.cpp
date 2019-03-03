@@ -1,14 +1,14 @@
 /*
-	Ram3_128_32.cpp
-	original + modifications + added functionality
-	but with 32 records in tlb
+	Ram2.cpp
+	original +modification
 	Homework 3
 	Franco Pettigrosso
 */
-#include <cstring>
+
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstring>
 #include <iomanip>
 
 using namespace std;
@@ -19,7 +19,7 @@ using namespace std;
 */
 int const PHYICALSIZE = 128;
 int const SIZE = 256;
-int const TLBSIZE = 32;
+int const TLBSIZE = 16;
 /*
  Frame
  A class that hold the basic information about a part of physical memory
@@ -32,7 +32,7 @@ public:
 	char Bits[SIZE]; //used to store what is in the bin
 	//used to give what would be the physical address if the bytes where
 	//put in one long array
-	int physical[SIZE]; 
+	int physical[SIZE];
 	/*
 		Frame
 		a constructor to set up a frame array
@@ -100,7 +100,7 @@ public:
 		that the algorithm takes all the free ones first.
 	*/
 	LRUSize() {
-		
+
 		for (int i = PHYICALSIZE - 1; i >= 0; i--)
 			titles[i] = (PHYICALSIZE - 1) - i;
 		/*
@@ -148,7 +148,7 @@ public:
 };
 /*
 	LRUTLB
-	like LRUSize but designed for tlbsize. 
+	like LRUSize but designed for tlbsize.
 	POP and Pick are exactly the same
 */
 class LRUTLB {
@@ -160,7 +160,7 @@ public:
 		makes the tlb titles all -1.
 	*/
 	LRUTLB() {
-		for(int i = 0; i < TLBSIZE; i++)
+		for (int i = 0; i < TLBSIZE; i++)
 			titles[i] = -1;
 	}
 	/*
@@ -275,7 +275,7 @@ bool PageHit(Page *Page, int pagenumber, Frame*& frameIndex) {
 	Checks to see if the command given is a write command. if so
 	the tlb and pagetable are updated accordingly
 */
-void IsDirty(Page *TLBTable, Page *PageTable, char command, Frame*& frame){
+void IsDirty(Page *TLBTable, Page *PageTable, char command, Frame*& frame) {
 	if (command == 'R')
 		return;
 	int i, j;
@@ -402,7 +402,6 @@ int main(int argc, char* args[]) {
 							break;
 						}
 					//-----------------------------------------------
-					IsDirty(TLB, PageTable, command, frame);
 					redo = 0;
 				}
 				else {
@@ -419,21 +418,6 @@ int main(int argc, char* args[]) {
 					//change page of victim invalid
 					for (; j < SIZE; j++)
 						if (PageTable[j].frame == &PhysicalMemory[i]) {
-							if (PageTable[j].DirtyBit == true) {
-								Stats.NumberOfWrites++;
-								BackStore.seekp(streampos(PageTable[j].Title << 8), ios::beg);
-								while (k <= 255) {
-									BackStore.write(&PhysicalMemory[i].Bits[k], sizeof(char));
-									k++;
-								}
-								k = 0;
-								PageTable[j].DirtyBit = 0;
-								for (; l < TLBSIZE; l++) 
-									if (TLB[l].Title == PageTable[j].Title) {
-										TLB[l].DirtyBit = 0;
-										break;
-									}
-							}
 							PageTable[j].frame = nullptr;
 							PageTable[j].Valid = false;
 							break;
@@ -458,8 +442,7 @@ int main(int argc, char* args[]) {
 		}
 		cout << "Statistics\r\n" <<
 			"Page Fault Rate - " << setprecision(4) << (Stats.NumberOFPageFaults / Stats.NumberOfCalls) * 100 << "%\r\n" <<
-			"TLB Hit RAte    - " << setprecision(4) << (Stats.NumberOFTLBHits / Stats.NumberOfCalls) * 100 << "%\r\n"
-			"faults that led to writes to bin - " << setprecision(4)<< Stats.NumberOfWrites << "\r\n";
+			"TLB Hit RAte    - " << setprecision(4) << (Stats.NumberOFTLBHits / Stats.NumberOfCalls) * 100 << "%\r\n";
 		Addresses.close();
 		BackStore.close();
 		return 0;

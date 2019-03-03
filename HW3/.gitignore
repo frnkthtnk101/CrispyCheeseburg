@@ -8,4 +8,5 @@ ram3_256
 ram3_128_4
 ram3_128_32
 *.dSYM
+*_Stats.txt
 

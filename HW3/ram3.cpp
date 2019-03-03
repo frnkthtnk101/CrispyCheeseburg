@@ -18,7 +18,7 @@ using namespace std;
  Size is how many words are in frame
  TLB size is to tell how many tuples the tlb has
 */
-int const PHYICALSIZE = 256;
+int const PHYICALSIZE = 128;
 int const SIZE = 256;
 int const TLBSIZE = 16;
 /*
