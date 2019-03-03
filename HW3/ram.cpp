@@ -256,10 +256,9 @@ int main(int argc, char* args[]) {
 				lower = 255 & address;
 				if (TLBHit(TLB, upper, frame)) {
 					Stats.NumberOFTLBHits++;
-					cout << "Virtual Address: " << address
-						<< " command: " << command
-						<< " Physical Address: " << frame->physical[lower]
-						<< " value: " << GetValue(frame->Bits[lower]) << " tlb hit" << endl;
+					cout << "Virtual address: " << address
+						<< " Physical address: " << frame->physical[lower]
+						<< " Value: " << GetValue(frame->Bits[lower]) << endl;
 					if (command == 'W')
 						frame->DirtyBit = 1;
 					FrameLRU.pick(frame->Title);
@@ -268,10 +267,9 @@ int main(int argc, char* args[]) {
 				}
 				else if (PageHit(PageTable, upper, frame)) {
 
-					cout << "Virtual Address: " << address
-						<< " command: " << command
-						<< " Physical Address: " << frame->physical[lower]
-						<< " value: " << GetValue(frame->Bits[lower]) << endl;
+					cout << "Virtual address: " << address
+						<< " Physical address: " << frame->physical[lower]
+						<< " Value: " << GetValue(frame->Bits[lower]) << endl;
 					if (command == 'W')
 						frame->DirtyBit = 1;
 					FrameLRU.pick(frame->Title);
@@ -300,9 +298,9 @@ int main(int argc, char* args[]) {
 						if (PhysicalMemory[i].Title == VictimTitle)
 							break;
 					if (PhysicalMemory[i].DirtyBit == true) {
-						BackStore.seekg(streampos(upper << 8), ios::beg);
+						BackStore.seekp(streampos(i << 8), ios::beg);
 						while (k < 255) {
-							BackStore.write(&PhysicalMemory[i].Bits[k], 1);
+							BackStore.write(&PhysicalMemory[i].Bits[k], 1); //might be sizeof(char)
 							k++;
 						}
 						k = 0;
@@ -317,10 +315,9 @@ int main(int argc, char* args[]) {
 						}
 
 					//page in desired page
-					int t = upper << 8;
-				BackStore.seekg(streampos(t), ios::beg);
+					BackStore.seekg(streampos(upper << 8), ios::beg);
 					//might have to read 255 once to bits
-					while (k < 255)
+					while (k <= 255)
 					{
 						BackStore.read(&PhysicalMemory[i].Bits[k], 1);
 						k++;
