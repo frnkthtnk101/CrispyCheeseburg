@@ -4,7 +4,7 @@
 	Homework 3
 	Franco Pettigrosso
 */
-#include<pch.h>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <string>
