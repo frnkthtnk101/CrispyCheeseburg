@@ -68,7 +68,7 @@ public:
 
 	int pop() {
 		int temp = titles[SIZE - 1];
-		for (int i = 256; i > 0;)
+		for (int i = 255; i > 0;)
 		{
 			int t = titles[--i];
 			titles[i + 1] = t;
@@ -238,7 +238,7 @@ int main(int argc, char* args[]) {
 		LRUSize FrameLRU = LRUSize();
 		Statistics Stats;
 		ifstream Addresses;
-		fstream BackStore("C:\\Users\\fpettigrosso\\ws\\CrispyCheeseburg\\HW3\\BACKING_STORE.bin", ios::out | ios::in | ios::binary | ios::ate);
+		fstream BackStore("C:\\Users\\fpettigrosso\\ws\\CrispyCheeseburg\\HW3\\BACKING_STORE.bin", ios::out | ios::in | ios::binary);
 		Addresses.open(args[1]);
 		if (Addresses.is_open()) {
 			string line;
@@ -317,7 +317,8 @@ int main(int argc, char* args[]) {
 						}
 
 					//page in desired page
-					BackStore.seekg(streampos(upper << 8), ios::beg);
+					int t = upper << 8;
+				BackStore.seekg(streampos(t), ios::beg);
 					//might have to read 255 once to bits
 					while (k < 255)
 					{
