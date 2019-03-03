@@ -19,5 +19,7 @@ ram3_128_32: ram3_128_32
 
 ram3_128_4: ram3_128_4
 	$(cpp) -g ram3_128_32.cpp $(c11) $(options4)
+
 clean:
 	rm ram ram1 ram3 ram3_128 ram3_256 ram3_128_32 ram3_128_4
+	rm -rf *.dSYM
