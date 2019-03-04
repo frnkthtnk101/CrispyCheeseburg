@@ -1,5 +1,10 @@
-﻿Import-Module Pester
-cd C:\Users\fpettigrosso\ws\CrispyCheeseburg\HW3
+﻿<#
+    resultsTesting.test.ps1
+    for ram1.cpp testing only.
+    Franco
+#>
+Import-Module Pester
+cd $HOME
 $correct = Get-Content .\correct.txt
 $results = Get-Content .\results.txt
 $ValuesCorrect = @()
